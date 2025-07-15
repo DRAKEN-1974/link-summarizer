@@ -16,7 +16,7 @@ Your AI-powered digital library. Save, organize, and discover your favorite link
 
 ### 1. Clone the repository
 ```bash
-git clone <your-repo-url>
+git clone :-https://github.com/DRAKEN-1974/link-summarizer
 cd final-link-saver
 ```
 
