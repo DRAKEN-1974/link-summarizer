@@ -65,4 +65,19 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 [MIT](LICENSE)
 
 ---
+<img width="2722" height="1434" alt="image" src="https://github.com/user-attachments/assets/e7774292-4697-4df1-b30b-be7607014286" />
+Image Showcasing the login page in white theme.
+
+
+
+<img width="2722" height="1434" alt="image" src="https://github.com/user-attachments/assets/2361c805-f614-4907-b1b2-bd6d5596c682" />
+Image of the same login page in the black theme.
+
+
+<img width="2722" height="1486" alt="image" src="https://github.com/user-attachments/assets/c663db60-f3f0-46c6-9f6a-ea0e5203f2a7" />
+Showcasing how the main dashboard looks like.
+
+<img width="2722" height="1486" alt="image" src="https://github.com/user-attachments/assets/214de5ff-6c7c-43ba-a82c-00490899c15b" />
+
+Showcasing the same dashboard in the changes theme.
 
