@@ -19,13 +19,13 @@ export async function signUp(prevState: any, formData: FormData) {
 
   try {
     // Check if user already exists
-    const existingUser = getUserByEmail(email)
+    const existingUser = await getUserByEmail(email)
     if (existingUser) {
       return { error: "User with this email already exists" }
     }
 
     // Create new user
-    const user = createUser(email, password)
+    const user = await createUser(email, password)
 
     // Create session
     const token = createSession(user.id)
@@ -54,7 +54,7 @@ export async function signIn(prevState: any, formData: FormData) {
 
   try {
     // Find user
-    const user = getUserByEmail(email)
+    const user = await getUserByEmail(email)
     if (!user) {
       return { error: "Invalid email or password" }
     }

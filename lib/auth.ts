@@ -29,7 +29,8 @@ export async function getUser(): Promise<SessionUser | null> {
       return null
     }
 
-    const user = getUserById(payload.userId)
+    // FIX: Await getUserById
+    const user = await getUserById(payload.userId)
 
     if (!user) {
       return null

@@ -3,7 +3,6 @@ import { redirect } from "next/navigation"
 import { BookmarkGrid } from "@/components/bookmark-grid"
 import { AddBookmarkForm } from "@/components/add-bookmark-form"
 import { Header } from "@/components/header"
-import { getBookmarks } from "@/lib/database"
 import { Suspense } from "react"
 import { BookmarkGridSkeleton } from "@/components/bookmark-grid-skeleton"
 
@@ -41,16 +40,11 @@ export default async function HomePage() {
           {/* Bookmarks Grid */}
           <section className="slide-up" style={{ animationDelay: "0.1s" }} aria-labelledby="bookmarks-title">
             <Suspense fallback={<BookmarkGridSkeleton />}>
-              <BookmarkGridWrapper userId={user.id} />
+              <BookmarkGrid userId={user.id} />
             </Suspense>
           </section>
         </div>
       </main>
     </div>
   )
-}
-
-async function BookmarkGridWrapper({ userId }: { userId: string }) {
-  const bookmarks = await getBookmarks(userId)
-  return <BookmarkGrid bookmarks={bookmarks} />
 }

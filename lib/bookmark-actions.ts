@@ -232,7 +232,7 @@ export async function addBookmark(prevState: any, formData: FormData) {
     }
 
     // Check if bookmark already exists
-    const existing = getBookmarkByUrl(user.id, cleanUrl)
+    const existing = await getBookmarkByUrl(user.id, cleanUrl)
     if (existing) {
       return { error: "This URL is already in your library", success: false }
     }
@@ -241,7 +241,7 @@ export async function addBookmark(prevState: any, formData: FormData) {
     const metadata = await fetchBookmarkMetadata(cleanUrl)
 
     // Save bookmark
-    createBookmark(user.id, cleanUrl, metadata.title, metadata.summary, metadata.favicon)
+    await createBookmark(user.id, cleanUrl, metadata.title, metadata.summary, metadata.favicon)
 
     revalidatePath("/")
     return { success: true, error: null }
@@ -266,7 +266,7 @@ export async function deleteBookmark(id: string) {
       throw new Error("Bookmark ID is required")
     }
 
-    const success = deleteBookmarkById(user.id, id)
+    const success = await deleteBookmarkById(user.id, id)
 
     if (!success) {
       throw new Error("Bookmark not found or could not be deleted")

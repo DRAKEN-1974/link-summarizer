@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { deleteBookmark } from "@/lib/bookmark-actions"
 import Image from "next/image"
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/lib/supabaseClient"
 
 interface Bookmark {
   id: string
@@ -21,15 +22,33 @@ interface Bookmark {
 }
 
 interface BookmarkGridProps {
-  bookmarks: Bookmark[]
+  userId: string
 }
 
-export function BookmarkGrid({ bookmarks }: BookmarkGridProps) {
+export function BookmarkGrid({ userId }: BookmarkGridProps) {
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [isDeleting, setIsDeleting] = useState<string | null>(null)
   const { toast } = useToast()
+
+  useEffect(() => {
+    async function fetchBookmarks() {
+      setLoading(true)
+      const { data, error } = await supabase
+        .from("bookmarks")
+        .select("*")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+      if (!error && data) {
+        setBookmarks(data as Bookmark[])
+      }
+      setLoading(false)
+    }
+    fetchBookmarks()
+  }, [userId])
 
   // Memoized calculations for performance
   const allTags = useMemo(() => {
@@ -166,7 +185,17 @@ export function BookmarkGrid({ bookmarks }: BookmarkGridProps) {
       </div>
 
       {/* Bookmarks */}
-      {filteredBookmarks.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-16 fade-in">
+          <div className="p-4 rounded-full bg-muted/50 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <Globe className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <h3 className="text-lg font-semibold mb-2">Loading your bookmarks...</h3>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            We are fetching your bookmarks from the library. Please wait a moment.
+          </p>
+        </div>
+      ) : filteredBookmarks.length === 0 ? (
         <div className="text-center py-16 fade-in">
           <div className="p-4 rounded-full bg-muted/50 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
             <Globe className="h-8 w-8 text-muted-foreground" />
